@@ -57,3 +57,70 @@ parent_of(elf,els).
 parent_of(elf,mar).
 parent_of(tek,mar).
 
+
+%RULES
+father_of(X,Y):- male(X),parent_of(X,Y).
+
+mother_of(X,Y):- female(X),parent_of(X,Y).
+
+grandfather_of(X,Y) :- male(X), parent_of(X,Z), parent_of(Z,Y).
+
+grandmother_of(X,Y) :- female(X), parent_of(X,Z), parent_of(Z,Y).
+
+grandparent_of(X,Y):- grandfather_of(X,Y).
+grandparent_of(X,Y):- grandmother_of(X,Y).
+
+grandchild_of(X,Y):- grandparent_of(Y,X).
+
+brother_of(X,Y) :- male(X), father_of(Z,X),father_of(Z,Y),mother_of(U,X),mother_of(U,Y),not(X=Y).
+
+sister_of(X,Y) :- female(X),father_of(Z,X),father_of(Z,Y),mother_of(U,X),mother_of(U,Y),not(X=Y).  % Z:same father  U:same mother
+
+aunt_of(X,Y):- parent_of(Z,Y),sister_of(X,Z).
+uncle_of(X,Y):- parent_of(Z,Y),brother_of(X,Z).
+
+cousin_of(X,Y):- parent_of(Z,X),
+    parent_of(U,Y),brother_of(Z,U).
+cousin_of(X,Y):- parent_of(Z,X),parent_of(U,Y),sister_of(Z,U).
+
+niece(X,Y):- parent_of(Z,X),brother_of(Z,Y),female(X).
+niece(X,Y):- parent_of(Z,X),sister_of(Z,Y),female(X).
+
+nephew(X,Y):- parent_of(Z,X),brother_of(Z,Y),male(X).
+nephew(X,Y):-parent_of(Z,X),sister_of(Z,Y),male(X).
+
+
+
+
+
+addmale :-
+    write_ln("Please Write a Male Family Member : "),
+    read(A),
+    write_ln("********************* "),
+    write(A),
+    write(" has been added  "),
+    writeln("********************* "),
+    assertz(male(A)).
+
+addfemale :-
+    write_ln("Please Write a Female Family Member "),
+    read(A),
+    write_ln("********************* "),
+    write(A),
+    write(" has been added "),
+    writeln("********************* "),
+    assertz(female(A)).
+  %  tell('hello.pl').
+
+addparent :-
+    write_ln("Please Write a parent"),
+    read(P),
+    write_ln("Please Write a child"),
+    read(C),
+    write_ln("********************* "),
+    write(P),
+    write(" has been added as a parent of "),write(C),
+    writeln("********************* "),
+    assertz(parent_of(P,C)).
+   % tell('hello.pl').
+
