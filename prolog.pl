@@ -138,3 +138,44 @@ showall  :-
     write_ln(" Male Family Members "),write_ln(_____________________), listing(male),
     write_ln(" Female Family Members "),write_ln(________________________), listing(female).
 
+
+switch(X, [Val:Goal|Cases]):-
+    ( X=Val ->
+        call(Goal)
+    ;
+        switch(X, Cases)
+    ).
+
+entry:-
+    write_ln("
+
+
+		       WELCOME TO THE FAMILY TREE EXCERCISE
+				   WITH PROLOG
+		***********************************************
+		*                      MENU                   *
+		*					      *
+		*        1. Add a male family member          *
+		*        2. Add a female family member        *
+		*        3. Add a parent                      *
+		*        4. Remove a male family member       *
+		*        5. Remove a female family member     *
+		*	 6. Show Family Members & Relations   *
+		*					      *
+		***********************************************
+
+"),
+
+
+    read(X),
+    switch(X,[
+           1 : addmale,
+           2 : addfemale,
+           3 : addparent,
+           4 : removemale,
+           5 : removefemale,
+           6 : showall
+            ]).
+
+
+:- entry.
