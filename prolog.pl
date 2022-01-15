@@ -124,3 +124,17 @@ addparent :-
     assertz(parent_of(P,C)).
    % tell('hello.pl').
 
+   removemale :-
+    write_ln("Please Write name to be Removed "),
+    read(R),
+    retract(male(R)).
+
+removefemale :-
+    write_ln("Please Write name to be Removed "),
+    read(R),
+    retract(female(R)).
+
+showall  :-
+    write_ln(" Male Family Members "),write_ln(_____________________), listing(male),
+    write_ln(" Female Family Members "),write_ln(________________________), listing(female).
+
